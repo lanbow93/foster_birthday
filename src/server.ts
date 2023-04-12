@@ -1,12 +1,15 @@
 import { Application, Request, Response } from "express"
 import cookieParser from "cookie-parser"
+import authRouter from "./controllers/auth"
+
+
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
 
 require("dotenv").config()
 
-
+//Application 
 const app: Application = express()
 
 //Middleware
@@ -21,6 +24,8 @@ app.use(cookieParser())
 
 
 // Routes
+
+app.use("/auth", authRouter)
 
 app.get('/', (request: Request, response: Response) => {
     response.send("Server is running")
