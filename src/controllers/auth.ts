@@ -3,11 +3,11 @@ import User from "../models/User";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
-import { IUserObject, IUserPass } from "../utils/InterfacesUsed";
+import { IUserPass } from "../utils/InterfacesUsed";
 
 
 dotenv.config()
-
+const {SECRET}: any = process.env
 // create router
 const router: Router = express.Router()
 
@@ -33,9 +33,9 @@ router.post("/login", async (request: Request, response: Response) => {
     try {
         const {username, password}: IUserPass = request.body
         //Check for user
-        const user: IUserObject = await User.findOne({username})
-        
-        const {SECRET} = process.env
+        const user: any = await User.findOne({username})
+
+
         if (user){
             const passwordCheck: Boolean = await bcrypt.compare(password, user.password)
             if(passwordCheck) {
@@ -61,36 +61,6 @@ router.post("/login", async (request: Request, response: Response) => {
 // Admin Logout Post
 router.post("/logout", async (request: Request, response: Response) => {
     response.clearCookie("token").json({response: "You are Logged Out"})
-})
-
-// User quiz verification Post
-
-router.post("/:id" , async (request:any, response: Response) => {
-    try{
-        const {password} = request.body
-        //Check for existing quiz
-        const quiz = await Quiz.findOne({ _id: request.params.id})
-
-        if (quiz) {
-            const passwordCheck: Boolean = await bcrypt.compare(password, quiz.password)
-            if(passwordCheck) {
-                const payload = request.params.id
-                const token = await jwt.sign(payload, process.env.SECRET)
-                response.cookie("userToken", token, {
-                    httpOnly: true,
-                    path: "/",
-                    sameSite: "none",
-                    secure: request.hostname === "locahhost" ? false : true,
-                }).json({payload, status: "logged in"})
-            } else {
-                response.status(400).json({error: "Password does not match"})
-            }
-        } else {
-            response.status(400).json({error: "Quiz does not exist"})
-        }
-    } catch(error) {
-        response.status(400).json(error)
-    }
 })
 
 export default router

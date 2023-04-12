@@ -9,6 +9,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+const { SECRET } = process.env;
 // create router
 const router = express_1.default.Router();
 // Admin Signup Post
@@ -31,7 +32,6 @@ router.post("/login", async (request, response) => {
         const { username, password } = request.body;
         //Check for user
         const user = await User_1.default.findOne({ username });
-        const { SECRET } = process.env;
         if (user) {
             const passwordCheck = await bcryptjs_1.default.compare(password, user.password);
             if (passwordCheck) {
@@ -59,35 +59,5 @@ router.post("/login", async (request, response) => {
 // Admin Logout Post
 router.post("/logout", async (request, response) => {
     response.clearCookie("token").json({ response: "You are Logged Out" });
-});
-// User quiz verification Post
-router.post("/:id", async (request, response) => {
-    try {
-        const { password } = request.body;
-        //Check for existing quiz
-        const quiz = await Quiz.findOne({ _id: request.params.id });
-        if (quiz) {
-            const passwordCheck = await bcryptjs_1.default.compare(password, quiz.password);
-            if (passwordCheck) {
-                const payload = request.params.id;
-                const token = await jsonwebtoken_1.default.sign(payload, process.env.SECRET);
-                response.cookie("userToken", token, {
-                    httpOnly: true,
-                    path: "/",
-                    sameSite: "none",
-                    secure: request.hostname === "locahhost" ? false : true,
-                }).json({ payload, status: "logged in" });
-            }
-            else {
-                response.status(400).json({ error: "Password does not match" });
-            }
-        }
-        else {
-            response.status(400).json({ error: "Quiz does not exist" });
-        }
-    }
-    catch (error) {
-        response.status(400).json(error);
-    }
 });
 exports.default = router;
