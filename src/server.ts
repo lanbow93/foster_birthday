@@ -1,6 +1,7 @@
 import { Application, Request, Response } from "express"
 import cookieParser from "cookie-parser"
 import authRouter from "./controllers/auth"
+import photoRouter from "./controllers/photo"
 
 
 const express = require("express")
@@ -26,6 +27,8 @@ app.use(cookieParser())
 // Routes
 
 app.use("/auth", authRouter)
+app.use("/photo", photoRouter)
+
 
 app.get('/', (request: Request, response: Response) => {
     response.send("Server is running")
