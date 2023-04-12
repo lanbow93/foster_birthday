@@ -9,9 +9,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
-//Application 
 const app = express();
-//Middleware
 app.use(morgan("tiny"));
 app.use(cors({
     origin: ["http://localhost:5173"],
@@ -19,7 +17,6 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use((0, cookie_parser_1.default)());
-// Routes
 app.use("/auth", auth_1.default);
 app.get('/', (request, response) => {
     response.send("Server is running");

@@ -13,20 +13,20 @@ const router: Router = express.Router()
 
 
 // Admin Signup Post
-router.post("/signup", async (request: Request, response: Response) => {
-    try{
-        // Hash password
-        request.body.password = await bcrypt.hash(request.body.password, await bcrypt.genSalt(10))
+// router.post("/signup", async (request: Request, response: Response) => {
+//     try{
+//         // Hash password
+//         request.body.password = await bcrypt.hash(request.body.password, await bcrypt.genSalt(10))
 
-        // Generate user
-        const user = await User.create(request.body)
+//         // Generate user
+//         const user = await User.create(request.body)
 
-        // Response
-        response.json({status: "User Created", username: user})
-    } catch (error) {
-        response.status(400).json(error)
-    }
-})
+//         // Response
+//         response.json({status: "User Created", username: user})
+//     } catch (error) {
+//         response.status(400).json(error)
+//     }
+// })
 
 // Admin Login Post
 router.post("/login", async (request: Request, response: Response) => {

@@ -10,27 +10,10 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const { SECRET } = process.env;
-// create router
 const router = express_1.default.Router();
-// Admin Signup Post
-router.post("/signup", async (request, response) => {
-    try {
-        // Hash password
-        request.body.password = await bcryptjs_1.default.hash(request.body.password, await bcryptjs_1.default.genSalt(10));
-        // Generate user
-        const user = await User_1.default.create(request.body);
-        // Response
-        response.json({ status: "User Created", username: user });
-    }
-    catch (error) {
-        response.status(400).json(error);
-    }
-});
-// Admin Login Post
 router.post("/login", async (request, response) => {
     try {
         const { username, password } = request.body;
-        //Check for user
         const user = await User_1.default.findOne({ username });
         if (user) {
             const passwordCheck = await bcryptjs_1.default.compare(password, user.password);
@@ -56,7 +39,6 @@ router.post("/login", async (request, response) => {
         response.status(400).json(error);
     }
 });
-// Admin Logout Post
 router.post("/logout", async (request, response) => {
     response.clearCookie("token").json({ response: "You are Logged Out" });
 });
