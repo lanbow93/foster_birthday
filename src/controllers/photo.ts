@@ -1,6 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import multer from "multer";
 import path from "path";
+import adminLoggedIn from "../utils/AdminLoggedIn";
 
 const router: Router = express.Router();
 
@@ -36,7 +37,7 @@ router.post("/", upload.single("photo"), (request: Request, response: Response) 
 
 
 // Serve photos from the "Images" folder
-router.get("/:imageName", (request: Request, response: Response) => {
+router.get("/:imageName", adminLoggedIn, (request: Request, response: Response) => {
   const imageName = request.params.imageName;
   response.sendFile(path.join(__dirname, `../Images/${imageName}`));
 });

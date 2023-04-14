@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
+const AdminLoggedIn_1 = __importDefault(require("../utils/AdminLoggedIn"));
 const router = express_1.default.Router();
 const storage = multer_1.default.diskStorage({
     destination: (req, file, callback) => {
@@ -27,7 +28,7 @@ router.post("/", upload.single("photo"), (request, response) => {
     console.log(request.file);
     response.send("Photo uploaded successfully!");
 });
-router.get("/:imageName", (request, response) => {
+router.get("/:imageName", AdminLoggedIn_1.default, (request, response) => {
     const imageName = request.params.imageName;
     response.sendFile(path_1.default.join(__dirname, `../Images/${imageName}`));
 });
