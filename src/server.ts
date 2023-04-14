@@ -18,7 +18,7 @@ const app: Application = express()
 
 app.use(morgan("tiny"));
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:3000", "https://fosterbirthdaysurprise.onrender.com"],
     credentials: true
 }))
 app.use(express.json())
