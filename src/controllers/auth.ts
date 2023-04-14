@@ -45,7 +45,7 @@ router.post("/login", async (request: Request, response: Response) => {
                     httpOnly: true,
                     path: "/",
                     sameSite: "none",
-                    secure: request.hostname === "locahhost" ? false : true,}).json({payload, status: "logged in"})
+                    secure: request.hostname === "localhost" ? false : true,}).json({payload, status: "logged in"})
             } else {
                 response.status(400).json({error: "Password does not match"})
             }
