@@ -11,7 +11,7 @@ const {SECRET}: any = process.env
 // create router
 const router: Router = express.Router()
 
-
+router.use(express.static("public"))
 // Admin Signup Post
 // router.post("/signup", async (request: Request, response: Response) => {
 //     try{

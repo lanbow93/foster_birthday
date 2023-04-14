@@ -18,10 +18,11 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use((0, cookie_parser_1.default)());
+app.use(express.static("public"));
 app.use("/auth", auth_1.default);
 app.use("/photo", photo_1.default);
 app.get('/', (request, response) => {
-    response.send("Server is running");
+    response.send("Server is functional");
 });
 const { PORT } = process.env;
 app.listen(PORT, () => {

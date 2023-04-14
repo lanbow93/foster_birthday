@@ -4,6 +4,7 @@ import authRouter from "./controllers/auth"
 import photoRouter from "./controllers/photo"
 
 
+
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
@@ -22,16 +23,16 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static("public"))
 
 
 // Routes
-
 app.use("/auth", authRouter)
 app.use("/photo", photoRouter)
 
 
 app.get('/', (request: Request, response: Response) => {
-    response.send("Server is running")
+    response.send("Server is functional")
 })
 
 const {PORT} = process.env

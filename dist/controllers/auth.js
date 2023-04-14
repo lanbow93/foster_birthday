@@ -11,6 +11,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const { SECRET } = process.env;
 const router = express_1.default.Router();
+router.use(express_1.default.static("public"));
 router.post("/login", async (request, response) => {
     try {
         const { username, password } = request.body;
